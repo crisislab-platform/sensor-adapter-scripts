@@ -23,19 +23,6 @@ port_z = "8000"
 SERVER_IP = "10.241.144.172"
 SERVER_PORT = 2098
 
-
-###############################Defining the database parameters #########################
-database_IP = "169.254.170.27"
-database_port = 50112
-#########################################################################################
-
-###############################Defining the sensor parameters ###########################
-sensor_Type = "P-alert"
-sensor_ID = "P003"
-#########################################################################################
-
-
-
 # We need to send a post request to this url before the
 # server will agree to connect
 r = requests.post(f"http://{ip}/view/autostart.php")
@@ -59,7 +46,7 @@ log_dir = "logs"
 
 def decimate_array(array, decimation_factor):
     return array[::decimation_factor]
-def to_string_func(data_string):
+def to_array_func(data_string):
     data_string = str(data_string)
     data_string = data_string.replace("{'date': '400,", "")
     data_string = data_string.rstrip("'}")
@@ -68,9 +55,7 @@ def to_string_func(data_string):
     downsampled_array = decimate_array(data_list, decimation_factor)
     # Convert each value in the downsampled array to float
     downsampled_array = [float(value) for value in downsampled_array]
-    # Convert the entire array to string
-    data = str(downsampled_array)
-    return data
+    return downsampled_array
 
 def log(logFilePath, logString, threadID):
     timestamp = datetime.now().strftime('%d/%m/%Y %H:%M:%S')
@@ -93,21 +78,10 @@ udp_soc = s.socket(s.AF_INET,  s.SOCK_DGRAM)
 def udp_Sender(channel, timestamp, data): #this function sends data to the server for live graphs
     print("Sending data to server...")
     # Make it look like raspberry shake data
-    formatted_message = f"{{'{channel}', {timestamp}, {', '.join(data)}}}"
+    formatted_message = f"{{'{channel}', {str(timestamp)}, {', '.join([str(s) for s in to_array_func(data)])}}}"
     # Convert to binary
     message_binary = formatted_message.encode('utf-8')
     udp_soc.sendto(message_binary, (SERVER_IP, SERVER_PORT))
-
-    #soc.close()
-def data_message(sensorType, sensorID, timestamp, channel, Data):  # this function defines the message format for the alert message
-    Alertmsg = {}
-    Alertmsg['SensorType'] = sensorType
-    Alertmsg['SensorID'] = sensorID
-    Alertmsg['Timestamp'] = timestamp
-    Alertmsg['Channel_ID'] = channel
-    Alertmsg['AlertData'] = str(Data)
-    Alert_json_data = json.dumps(Alertmsg)
-    return str(Alert_json_data)
 
 
 @sio_x.event
