@@ -92,8 +92,11 @@ def check_dir():
 udp_soc = s.socket(s.AF_INET,  s.SOCK_DGRAM)
 def udp_Sender(channel, timestamp, data): #this function sends data to the server for live graphs
     print("Sending data to server...")
+    # Make it look like raspberry shake data
     formatted_message = f"{{'{channel}', {timestamp}, {', '.join(data)}}}"
-    udp_soc.sendto(formatted_message, (SERVER_IP, SERVER_PORT))
+    # Convert to binary
+    message_binary = formatted_message.encode('utf-8')
+    udp_soc.sendto(message_binary, (SERVER_IP, SERVER_PORT))
 
     #soc.close()
 def data_message(sensorType, sensorID, timestamp, channel, Data):  # this function defines the message format for the alert message
