@@ -7,17 +7,15 @@ import sys
 # Make sure python-socketio is installed with a version that starts with `4`.
 # E.g. version `4.6.1`
 from datetime import datetime, time
-import subprocess
 import socketio
 import time as t
 import requests
 import _thread
 import json
 import socket as s
-import ast
 
 
-ip = "169.254.160.169" #input("Sensor IP (without port): ")
+ip = "169.254.88.193" #input("Sensor IP (without port): ")
 port_x =  "8002" #input("Datastream port (8000, 8002, 8004): ")
 port_y = "8004"
 port_z = "8000"
@@ -35,12 +33,6 @@ database_port = 50112
 sensor_Type = "P-alert"
 sensor_ID = "P003"
 #########################################################################################
-
-def establish_tcp_connection():
-    # Create a socket object
-    tcp_soc = s.socket(s.AF_INET, s.SOCK_STREAM)
-    tcp_soc.connect((database_IP, database_port))
-    return tcp_soc
 
 
 
@@ -96,15 +88,7 @@ def check_dir():
     if not os.path.exists(outdir + serverLogDir):
         os.makedirs(outdir + serverLogDir)
 
-tsc_soc = establish_tcp_connection()
-def tcp_Sender(message): #this function sends the alert message to all the neighboring sensors within 30kms radius
-    print("Sending data to neighbours: " + str(message))
-    tsc_soc.sendall(message.encode())
-    #print the data recieved from the server
-    response = tsc_soc.recv(1024)
-    print(response)
-    #return response.decode() == 'Data received successfully'
-                    # Internet # UDP
+
 udp_soc = s.socket(s.AF_INET,  s.SOCK_DGRAM)
 def udp_Sender(channel, timestamp, data): #this function sends data to the server for live graphs
     print("Sending data to server...")
@@ -133,10 +117,6 @@ def connect():
 def date(data):
     current_datetime = datetime.now()
     timestamp = current_datetime.timestamp()
-    x_rec_time = str(timestamp)
-    x_data = str(to_string_func(data))
-    data_todb_x = data_message(sensor_Type, sensor_ID, x_rec_time, "ENN", x_data)
-    tcp_Sender(data_todb_x)
     udp_Sender("ENN", timestamp, data)
 
 
@@ -155,10 +135,6 @@ def connect():
 def date(data):
     current_datetime = datetime.now()
     timestamp = current_datetime.timestamp()
-    y_rec_time = str(timestamp)
-    y_data = str(to_string_func(data))
-    data_todb_y = data_message(sensor_Type, sensor_ID, y_rec_time, "ENE", y_data)
-    tcp_Sender(data_todb_y)
     udp_Sender("ENE", timestamp, data)
 
 
@@ -176,10 +152,6 @@ def connect():
 def date(data):
     current_datetime = datetime.now()
     timestamp = current_datetime.timestamp()
-    z_rec_time = str(timestamp)
-    z_data = str(to_string_func(data))
-    data_todb_z = data_message(sensor_Type, sensor_ID, z_rec_time, "ENZ", z_data)
-    tcp_Sender(data_todb_z)
     udp_Sender("ENZ", timestamp, data)
 
 
@@ -245,4 +217,3 @@ if __name__ == "__main__":
                 print("Rebooting the sensor...")
                 t.sleep(60)  # Wait for the sensor to reboot
             t.sleep(2)
-            tsc_soc = establish_tcp_connection()
