@@ -21,6 +21,7 @@ SERVER_PORT = 2098
 
 global data_packet
 global remaining_data
+global timestamp
 
 remaining_data = []
 
@@ -33,14 +34,11 @@ def udp_Sender(channel, timestamp, data): #this function sends data to the serve
     message_binary = formatted_message.encode('utf-8')
     udp_soc.sendto(message_binary, (SERVER_IP, SERVER_PORT))
 
-global flag, timestamp
-flag = True
 
 
 class MyClient(EasySeedLinkClient):
     # Implement the on_data callback
     def on_data(self, trace):
-        global flag
         global timestamp
         print("STATS of the data: " + str(trace.stats))
         # convert the timestamp to UTC format
