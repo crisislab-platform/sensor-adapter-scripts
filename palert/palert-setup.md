@@ -11,3 +11,5 @@ sudo systemctl restart palert-ingest.service
 sudo systemctl status palert-ingest.service
 tail -f ~/palert-to-ingest/logs
 ```
+
+[Zerotier setup](https://docs.google.com/document/d/1l8SA2pNLpueWjAy0l3gStlXXv-Tw3wwl3vfgqVdrA8s/edit?usp=sharing)
