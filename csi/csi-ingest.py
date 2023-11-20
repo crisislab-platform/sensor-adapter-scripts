@@ -51,7 +51,7 @@ class MyClient(EasySeedLinkClient):
 		# print("Data length is not 200")
 		# data = data_process(trace)
 		# if(len(data) == 200):
-		self.udp_sender(trace.stats.channel, timestamp, trace.data)
+		self.udp_sender(trace.stats.channel, timestamp.timestamp, trace.data)
 	def on_seedlink_error(self):
 		print('Received an error from the SeedLink server')
 	def on_info(self, msgtype, content):
