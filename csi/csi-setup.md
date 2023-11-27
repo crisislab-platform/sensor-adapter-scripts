@@ -1,5 +1,5 @@
 ```bash
-python3 -m pip install -r requirements.txt
+sudo python3 -m pip install -r requirements.txt
 sudo cp csi-ingest.service /etc/systemd/system/csi-ingest.service
 sudo systemctl daemon-reload
 sudo systemctl enable csi-ingest.service
