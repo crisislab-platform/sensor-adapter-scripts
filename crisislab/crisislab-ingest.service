@@ -1,0 +1,13 @@
+[Unit]
+Description=Service to forward sensor data to ingest server
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+WorkingDirectory=/home/pi/crisislab-to-ingest
+ExecStart=/bin/sh -c '/usr/bin/python3 crisislab-ingest.py >> /home/pi/crisislab-to-ingest/logs 2>&1'
+
+[Install]
+WantedBy=multi-user.target
