@@ -5,8 +5,8 @@ import socket
 
 SERIAL_PORT = "/dev/cu.usbserial-110"
 
-SERVER_IP = ""
-SERVER_PORT = ""
+SERVER_IP = "10.241.144.172"
+SERVER_PORT = 2098
 
 
 while True:
