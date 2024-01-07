@@ -16,7 +16,6 @@ while True:
         print("Done opening udp")
 
         def send_data_to_server(channel: str, data: list[int]):
-            print("Sending data to server...")
             # Make it look like raspberry shake data
             formatted_message = f"{{'{channel}', {str(time.time())}, {', '.join([str(s) for s in data])}}}"
             # Convert to binary
@@ -35,12 +34,13 @@ while True:
         lines_so_far = 0
         while True:
             line = ser.readline().decode('ascii')
-            print(f">{line}")
+            print(">"+line.replace("\n", ">\n").strip())
 
             # Send dummy wifi name & password
             if lines_so_far < 2:
                 lines_so_far+=1
                 ser.write("no_wifi_pls".encode('ascii'))
+                continue
 
             # parse data packets
             try:
@@ -58,8 +58,7 @@ while True:
                     send_data_to_server("CLZ", data["z"])
                 
             except Exception as err:
-                print(err)
-                print("Oh well. Reading next line anyway")
+                pass
             
     except Exception as err:
         print(err)
