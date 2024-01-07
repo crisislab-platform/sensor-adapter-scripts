@@ -25,6 +25,11 @@ while True:
 
         print(f"Connecting to serial port {SERIAL_PORT}...")
         ser = serial.Serial(SERIAL_PORT, 9600)
+        ser.close()
+        print("Half way there...")
+        # We need to close and reopen for the sensor to cooperate
+        time.sleep(1)
+        ser = serial.Serial(SERIAL_PORT, 9600)
         print(f"Done connecting to serial port")
 
         lines_so_far = 0
