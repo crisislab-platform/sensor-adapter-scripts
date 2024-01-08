@@ -3,7 +3,7 @@ import serial
 import json
 import socket
 
-SERIAL_PORT = "/dev/cu.usbserial-110"
+SERIAL_PORT = "/dev/ttyUSB0"
 
 SERVER_IP = "10.241.144.172"
 SERVER_PORT = 2098
