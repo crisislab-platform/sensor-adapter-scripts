@@ -28,7 +28,7 @@ class MyClient(EasySeedLinkClient):
 
 	def udp_sender(self, channel, timestamp, data):
 		#this function sends data to the server for live graphs
-		print("Sending data to server...")
+		# print("Sending data to server...")
 		# Make it look like raspberry shake data
 		formatted_message = f"{{'{channel}', {str(timestamp)}, {', '.join([str(s) for s in data])}}}"
 		# Convert to binary
@@ -37,7 +37,7 @@ class MyClient(EasySeedLinkClient):
 	# Implement the on_data callback
 	def on_data(self, trace):
 		global timestamp
-		print("STATS of the data: " + str(trace.stats))
+		# print("STATS of the data: " + str(trace.stats))
 		# convert the timestamp to UTC format
 		# only get the timestamp for the first data
 		timestamp = trace.stats.starttime

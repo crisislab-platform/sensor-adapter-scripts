@@ -76,7 +76,7 @@ def check_dir():
 
 udp_soc = s.socket(s.AF_INET,  s.SOCK_DGRAM)
 def udp_Sender(channel, timestamp, data): #this function sends data to the server for live graphs
-    print("Sending data to server...")
+    # print("Sending data to server...")
     # Make it look like raspberry shake data
     formatted_message = f"{{'{channel}', {str(timestamp)}, {', '.join([str(s) for s in to_array_func(data)])}}}"
     # Convert to binary

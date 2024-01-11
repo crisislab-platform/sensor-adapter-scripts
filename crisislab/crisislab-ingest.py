@@ -34,7 +34,7 @@ while True:
         lines_so_far = 0
         while True:
             line = ser.readline().decode('ascii')
-            print(">"+line.replace("\n", ">\n").strip())
+            # print(">"+line.replace("\n", ">\n").strip())
 
             # Send dummy wifi name & password
             if lines_so_far < 2:
