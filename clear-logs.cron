@@ -1,0 +1,1 @@
+0 0 * * * echo "$(tail -n 100 /home/pi/folder-name/logs)" > /home/pi/folder-name/logs
