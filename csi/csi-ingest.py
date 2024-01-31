@@ -13,6 +13,8 @@ import socket as s
 #
 # interface eth1
 
+sensor_ip = "169.254.139.7"
+
 SERVER_IP = "10.241.144.172"
 SERVER_PORT = 2098
 
@@ -65,7 +67,7 @@ class MyClient(EasySeedLinkClient):
 if __name__ == "__main__":
 	try:
 		# Create a SeedLink client instance
-		client = MyClient('192.168.100.100:18000')
+		client = MyClient(f'{sensor_ip}:18000')
 
 		# Define the desired station, network, location, and channel codes
 		station = 'ABC'  # Replace with the desired station code

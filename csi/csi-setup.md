@@ -1,4 +1,8 @@
 ```bash
+scp csi/* pi@ip-address:~/csi-to-ingest
+```
+
+```bash
 sudo python3 -m pip install -r requirements.txt --break-system-packages
 sudo cp csi-ingest.service /etc/systemd/system/csi-ingest.service
 sudo systemctl daemon-reload
