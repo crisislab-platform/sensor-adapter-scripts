@@ -3,6 +3,7 @@ import serial
 import json
 import socket
 
+# Change this to your serial port, e.g. COM3
 SERIAL_PORT = "/dev/ttyUSB0"
 
 SERVER_IP = "10.241.144.172"
