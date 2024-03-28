@@ -36,7 +36,7 @@ while True:
         lines_so_far = 0
         while True:
             line = ser.readline().decode('ascii')
-            # Uncomment this to prin the data for debugging
+            # Uncomment this to print the data for debugging
             # print(">"+line.replace("\n", ">\n").strip())
 
             # Send dummy wifi name & password
