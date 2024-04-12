@@ -2,7 +2,7 @@ import sys
 from obspy.clients.seedlink.easyseedlink import create_client
 import socket as s
 
-SENSOR_IP = "169.254.139.7"
+SENSOR_HOST = "169.254.139.7"
 SEEDLINK_PORT = "18000"
 NETWORK_ID="SS"
 STATION_ID = "DEM2"
@@ -31,7 +31,7 @@ def on_data(self, trace):
 if __name__ == "__main__":
 	try:
 		# Create a SeedLink client instance
-		client = create_client(f"{SENSOR_IP}:{SEEDLINK_PORT}", on_data=on_data)
+		client = create_client(f"{SENSOR_HOST}:{SEEDLINK_PORT}", on_data=on_data)
 
 		streams_xml = client.get_info('STREAMS')
 		print(streams_xml)
