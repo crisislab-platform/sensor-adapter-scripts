@@ -4,27 +4,27 @@
 #include "Protocentral_ADS1220.h"
 #include <SPI.h>
 
-#define PGA          1                 // Programmable Gain = 1
-#define VREF         2.048            // Internal reference of 2.048V
-#define VFSR         VREF/PGA
-#define FULL_SCALE   (((long int)1<<23)-1)
+#define PGA 1       // Programmable Gain = 1
+#define VREF 2.048  // Internal reference of 2.048V
+#define VFSR VREF / PGA
+#define FULL_SCALE (((long int)1 << 23) - 1)
 
-#define ADS1220_CS_PIN    7
-#define ADS1220_DRDY_PIN  A1
+#define ADS1220_CS_PIN 7
+#define ADS1220_DRDY_PIN A1
 
 Protocentral_ADS1220 pc_ads1220;
 int32_t adc_data;
 volatile bool drdyIntrFlag = false;
 
-void drdyInterruptHndlr(){
+void drdyInterruptHndlr() {
   drdyIntrFlag = true;
 }
 
-void enableInterruptPin(){
+void enableInterruptPin() {
 
   attachInterrupt(digitalPinToInterrupt(ADS1220_DRDY_PIN), drdyInterruptHndlr, FALLING);
 }
-  
+
 
 
 /*/
@@ -50,40 +50,40 @@ SoftwareSerial mySerial(3,2); // RX, TX pins
 
 void setup() {
 
-  
+
   pinMode(ADS1220_CS_PIN, OUTPUT);
   pinMode(ADS1220_DRDY_PIN, INPUT_PULLUP);
 
-//  Serial.begin(9600);
+  //  Serial.begin(9600);
   Serial.begin(115200);
- // mySerial.begin(9600);
-  
-   pc_ads1220.begin(ADS1220_CS_PIN,ADS1220_DRDY_PIN);
+  // mySerial.begin(9600);
 
-    pc_ads1220.set_data_rate(DR_330SPS);
-    pc_ads1220.set_pga_gain(PGA_GAIN_1);
+  pc_ads1220.begin(ADS1220_CS_PIN, ADS1220_DRDY_PIN);
 
-    pc_ads1220.set_conv_mode_single_shot(); //Set Single shot mode
-    
+  pc_ads1220.set_data_rate(DR_330SPS);
+  pc_ads1220.set_pga_gain(PGA_GAIN_1);
+
+  pc_ads1220.set_conv_mode_single_shot();  //Set Single shot mode
 }
 
 void loop() {
 
   unsigned long currentMillis = millis();
   // Convert milliseconds to seconds
-  unsigned long seconds = currentMillis / 1000;
+  // unsigned long seconds = currentMillis / 1000;
+  // Serial.println("Test456");
 
-    float x = pc_ads1220.Read_SingleShot_SingleEnded_WaitForData(MUX_SE_CH2);
-    Serial.print(convertToMilliV(x));
-    Serial.print(","); 
-    float y = pc_ads1220.Read_SingleShot_SingleEnded_WaitForData(MUX_SE_CH1);
-    Serial.print(convertToMilliV(y));
-    Serial.print(","); 
-    float z = pc_ads1220.Read_SingleShot_SingleEnded_WaitForData(MUX_SE_CH0);
-    Serial.println(convertToMilliV(z));
-   Serial.println(currentMillis); 
-
- /* 
+  float x = pc_ads1220.Read_SingleShot_SingleEnded_WaitForData(MUX_SE_CH2);
+  Serial.print(convertToMilliV(x));
+  Serial.print(",");
+  float y = pc_ads1220.Read_SingleShot_SingleEnded_WaitForData(MUX_SE_CH1);
+  Serial.print(convertToMilliV(y));
+  Serial.print(",");
+  float z = pc_ads1220.Read_SingleShot_SingleEnded_WaitForData(MUX_SE_CH0);
+  Serial.println(convertToMilliV(z));
+  Serial.println(currentMillis);
+}
+/* 
 ////////////////////SSID and password send/////////////////
   while (key < 1) {
     // Print a message to the serial monitor.
@@ -205,9 +205,8 @@ void collectData() {
   // Delay for 1 millisecond to avoid stacking duplicate values
   delay(2);
   */
-}
+// }
 
-float convertToMilliV(int32_t i32data)
-{
-    return (float)((i32data*VFSR*1000)/FULL_SCALE);
+float convertToMilliV(int32_t i32data) {
+  return (float)((i32data * VFSR * 1000) / FULL_SCALE);
 }

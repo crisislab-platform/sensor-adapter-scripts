@@ -3,12 +3,12 @@ import serial
 import json
 import socket
 
-SERIAL_PORT = "/dev/ttyUSB0"
+SERIAL_PORT = "/dev/cu.usbserial-110"
 
 SERVER_IP = "10.241.144.172"
 SERVER_PORT = 2098
 
-BAUD_RATE = 115200
+BAUD_RATE = 9600
 
 while True:
     try:
@@ -24,24 +24,24 @@ while True:
             udp_soc.sendto(message_binary, (SERVER_IP, SERVER_PORT))
 
         print(f"Connecting to serial port {SERIAL_PORT}...")
-        ser = serial.Serial(SERIAL_PORT, BAUD_RATE)
-        ser.close()
-        print("Half way there...")
-        # We need to close and reopen for the sensor to cooperate
-        time.sleep(1)
+        # ser = serial.Serial(SERIAL_PORT, BAUD_RATE)
+        # ser.close()
+        # print("Half way there...")
+        # # We need to close and reopen for the sensor to cooperate
+        # time.sleep(1)
         ser = serial.Serial(SERIAL_PORT, BAUD_RATE)
         print("Done connecting to serial port")
 
-        lines_so_far = 0
+        # lines_so_far = 0
         while True:
             line = ser.readline().decode('ascii')
             # print(">"+line.replace("\n", ">\n").strip())
 
-            # Send dummy wifi name & password
-            if lines_so_far < 2:
-                lines_so_far+=1
-                ser.write("no_wifi_pls".encode('ascii'))
-                continue
+            # # Send dummy wifi name & password
+            # if lines_so_far < 2:
+            #     lines_so_far+=1
+            #     ser.write("no_wifi_pls".encode('ascii'))
+            #     continue
 
             # parse data packets
             try:
