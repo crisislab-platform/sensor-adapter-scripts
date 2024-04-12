@@ -3,7 +3,8 @@ import serial
 import json
 import socket
 
-SERIAL_PORT = "/dev/cu.usbserial-110"
+# Change this to your serial port, e.g. COM3
+SERIAL_PORT = "/dev/ttyUSB0"
 
 SERVER_IP = "10.241.144.172"
 SERVER_PORT = 2098
@@ -35,6 +36,7 @@ while True:
         # lines_so_far = 0
         while True:
             line = ser.readline().decode('ascii')
+            # Uncomment this to print the data for debugging
             # print(">"+line.replace("\n", ">\n").strip())
 
             # # Send dummy wifi name & password
