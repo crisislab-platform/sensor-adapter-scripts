@@ -1,3 +1,4 @@
+from datetime import datetime,timezone
 import time
 import serial
 import json
@@ -51,12 +52,11 @@ while True:
 
                 # We buffer 10 samples before sending it off
                 if len(buffers["x"]) >= 10:
-                    print(x,y,z)
                     try:
                         send_data_to_server("x", buffers["x"])
                         send_data_to_server("y", buffers["y"])
                         send_data_to_server("z", buffers["z"])
-                        print("Sent data to server")
+                        print(f"[{datetime.now(timezone.utc)}] Sent data to server. Packet sample: {x}, {y}, {z}")
                     except Exception as err:
                         print("Error sending data: ",err)
                         
