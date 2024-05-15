@@ -43,29 +43,26 @@ while True:
 
         # lines_so_far = 0
         while True:
-            try:
-                line = ser.readline().decode('ascii')
-                x, y, z = line.strip().split(",")
-                buffers["x"].append(x)
-                buffers["y"].append(y)
-                buffers["z"].append(z)
+            line = ser.readline().decode('ascii')
+            x, y, z = line.strip().split(",")
+            buffers["x"].append(x)
+            buffers["y"].append(y)
+            buffers["z"].append(z)
 
-                # We buffer 10 samples before sending it off
-                if len(buffers["x"]) >= 10:
-                    try:
-                        send_data_to_server("x", buffers["x"])
-                        send_data_to_server("y", buffers["y"])
-                        send_data_to_server("z", buffers["z"])
-                        print(f"[{datetime.now(timezone.utc)}] Sent data to server. Packet sample: {x}, {y}, {z}")
-                    except Exception as err:
-                        print("Error sending data: ",err)
-                        
-                    buffers["x"] = []
-                    buffers["y"] = []
-                    buffers["z"] = []
+            # We buffer 10 samples before sending it off
+            if len(buffers["x"]) >= 10:
+                try:
+                    send_data_to_server("x", buffers["x"])
+                    send_data_to_server("y", buffers["y"])
+                    send_data_to_server("z", buffers["z"])
+                    print(f"[{datetime.now(timezone.utc)}] Sent data to server. Packet sample: {x}, {y}, {z}")
+                except Exception as err:
+                    print("Error sending data: ",err)
+                    
+                buffers["x"] = []
+                buffers["y"] = []
+                buffers["z"] = []
 
-            except Exception as err:
-                print("Error reading line: ",err)
        
             
     except Exception as err:
