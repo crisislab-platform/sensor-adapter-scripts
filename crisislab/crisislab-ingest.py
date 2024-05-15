@@ -4,6 +4,7 @@ import json
 import socket
 
 # Change this to your serial port, e.g. COM3
+SERIAL_PORT = "/dev/tty.usbserial-10"
 
 SERVER_IP = "10.241.144.172"
 SERVER_PORT = 2098
@@ -44,17 +45,18 @@ while True:
             try:
                 line = ser.readline().decode('ascii')
                 x, y, z = line.strip().split(",")
-                if (len(buffers["x"]) % 10 == 0):
-                    print(x,y,z)
                 buffers["x"].append(x)
                 buffers["y"].append(y)
                 buffers["z"].append(z)
 
-                if len(buffers["x"]) >= 100:
+                # We buffer 10 samples before sending it off
+                if len(buffers["x"]) >= 10:
+                    print(x,y,z)
                     try:
                         send_data_to_server("x", buffers["x"])
                         send_data_to_server("y", buffers["y"])
                         send_data_to_server("z", buffers["z"])
+                        print("Sent data to server")
                     except Exception as err:
                         print("Error sending data: ",err)
                         
