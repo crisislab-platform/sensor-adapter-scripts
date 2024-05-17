@@ -1,6 +1,7 @@
 import sys
 from obspy.clients.seedlink.easyseedlink import create_client
 import socket as s
+from datetime import datetime,timezone
 
 SENSOR_HOST = "gsd.local"
 SEEDLINK_PORT = "18000"
@@ -14,7 +15,9 @@ SERVER_PORT = 2098
 udp_soc = s.socket(s.AF_INET, s.SOCK_DGRAM)
 print("UDP opened")
 
+counter = 0
 def udp_sender(channel, timestamp, data):
+	global counter
 	#this function sends data to the server for live graphs
 	# print("Sending data to server...")
 	# Make it look like raspberry shake data
@@ -22,6 +25,10 @@ def udp_sender(channel, timestamp, data):
 	# Convert to binary
 	message_binary = formatted_message.encode('utf-8')
 	udp_soc.sendto(message_binary, (SERVER_IP, SERVER_PORT))
+	counter += 1
+	if counter >= 100:
+		counter = 0
+		print(f"[{datetime.now(timezone.utc)}] Sent data to server. Packet sample: {formatted_message}")
 
 def on_data(trace):
 	udp_sender(trace.stats.channel, trace.stats.starttime.timestamp, trace.data)
