@@ -14,7 +14,7 @@ SERVER_PORT = 2098
 udp_soc = s.socket(s.AF_INET, s.SOCK_DGRAM)
 print("UDP opened")
 
-def udp_sender(self, channel, timestamp, data):
+def udp_sender(channel, timestamp, data):
 	#this function sends data to the server for live graphs
 	# print("Sending data to server...")
 	# Make it look like raspberry shake data
@@ -23,8 +23,8 @@ def udp_sender(self, channel, timestamp, data):
 	message_binary = formatted_message.encode('utf-8')
 	udp_soc.sendto(message_binary, (SERVER_IP, SERVER_PORT))
 
-def on_data(self, trace):
-	self.udp_sender(trace.stats.channel, trace.stats.starttime.timestamp, trace.data)
+def on_data(trace):
+	udp_sender(trace.stats.channel, trace.stats.starttime.timestamp, trace.data)
 
 
 # Define the SeedLink server parameters
