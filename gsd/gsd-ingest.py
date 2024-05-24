@@ -13,13 +13,13 @@ SERVER_IP = "10.241.144.172"
 SERVER_PORT = 2098
 
 udp_soc = s.socket(s.AF_INET, s.SOCK_DGRAM)
-print("UDP opened")
+print("UDP opened", flush=True)
 
 counter = 0
 def udp_sender(channel, timestamp, data):
 	global counter
-	#this function sends data to the server for live graphs
-	# print("Sending data to server...")
+	# This function sends data to the server for live graphs
+
 	# Make it look like raspberry shake data
 	formatted_message = f"{{'{channel}', {str(timestamp)}, {', '.join([str(s) for s in data])}}}"
 	# Convert to binary
@@ -28,7 +28,7 @@ def udp_sender(channel, timestamp, data):
 	counter += 1
 	if counter >= 100:
 		counter = 0
-		print(f"[{datetime.now(timezone.utc)}] Sent data to server. Packet sample: {formatted_message}")
+		print(f"[{datetime.now(timezone.utc)}] Sent data to server. Packet sample: {formatted_message}", flush=True)
 
 def on_data(trace):
 	udp_sender(trace.stats.channel, trace.stats.starttime.timestamp, trace.data)
@@ -41,15 +41,15 @@ if __name__ == "__main__":
 		client = create_client(f"{SENSOR_HOST}:{SEEDLINK_PORT}", on_data=on_data)
 
 		streams_xml = client.get_info('STREAMS')
-		print(streams_xml)
+		print(streams_xml, flush=True)
 		# Start the connection to the SeedLink server
 		client.select_stream(NETWORK_ID, STATION_ID, CHANNEL_SELECTOR)
 		client.run()
 
 	except KeyboardInterrupt:
-		print("Keyboard interrupt. Exiting...")
+		print("Keyboard interrupt. Exiting...", flush=True)
 		sys.exit()
 
 	except Exception as e:
-		print("An error occurred:", str(e))
-		print("Restarting...")
+		print("An error occurred:", str(e), flush=True)
+		print("Restarting...", flush=True)
