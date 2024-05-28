@@ -17,6 +17,7 @@ print("UDP opened", flush=True)
 
 counter = 0
 def udp_sender(channel, timestamp, data):
+	global counter
 	# This function sends data to the server for live graphs
 
 	# Make it look like raspberry shake data
