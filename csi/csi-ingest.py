@@ -3,7 +3,7 @@ from obspy.clients.seedlink.easyseedlink import create_client
 import socket as s
 from datetime import datetime,timezone
 
-SENSOR_HOST = "169.254.139.7"
+SENSOR_HOST = "192.168.100.100"
 SEEDLINK_PORT = "18000"
 NETWORK_ID="SS"
 STATION_ID = "DEM2"
