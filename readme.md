@@ -22,3 +22,24 @@ Also check out the [How to set up a sensor](https://docs.google.com/document/d/1
 4. Test with first a local version of the [ingest server](https://github.com/crisislab-platform/ingest-deno) and then the live version.
 5. Update the instructions if needed.
 6. Commit to the repo.
+
+### More details
+
+Fundamentally, the hard part is getting data out of a sensor. Once you have it (and have internet access) you just need to arrange it in the following format, encode it as `utf-8` binary, then send it to `10.241.144.172:2098` over UDP.
+
+```
+{'channel', timestamp (in seconds not ms), num1, num2, num3, ..., num250}
+```
+
+E.g.
+
+```
+{'HNZ', 1722946951.674587, 1,2,3,4,5,6,7,8}
+```
+
+This is based on the Raspberry Shake data format. Thinks to remember:
+
+- The channel should be 3 upper-case letters
+- The timestamp is **in seconds not milliseconds**
+- Spaces are optional
+- You can have any number of readings, but around 250 is normal
