@@ -1,8 +1,3 @@
-# ------------------------------------------
-# --- Author: Chanthujan Chandrakumar
-# --- Date: 7th July 2023
-# --- Python Ver: 3.8
-# ------------------------------------------
 import sys
 # Make sure python-socketio is installed with a version that starts with `4`.
 # E.g. version `4.6.1`
